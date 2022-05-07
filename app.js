@@ -31,11 +31,11 @@ app_low.use((req, res, next) => {
   }
 });
 
-app_low.get("/", (req, res) => {
+app.get("/", (req, res) => {
   res.send("mainPage");
 });
 
-app_low.get(
+app.get(
   "/.well-known/pki-validation/3F31E25B13B32EC5CF532FFC1868B24A.txt",
   (req, res) => {
     res.sendFile(
