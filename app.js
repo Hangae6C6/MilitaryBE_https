@@ -19,6 +19,10 @@ const credentials = {
 const app = express();
 const app_low = express();
 
+app_low.get("/", (req, res) => {
+  res.send("mainPage");
+});
+
 //https 리다이렉션
 //app_low : http 전용 미들웨어
 app_low.use((req, res, next) => {
@@ -29,10 +33,6 @@ app_low.use((req, res, next) => {
     console.log(to);
     res.redirect(to);
   }
-});
-
-app_low.get("/", (req, res) => {
-  res.send("mainPage");
 });
 
 app_low.get(
