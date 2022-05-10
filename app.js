@@ -6,14 +6,14 @@ const httpPort = 3000;
 const httpsPort = 4433;
 
 //인증서 파트
-const privateKey = fs.readFileSync(__dirname + "/private.key", "utf8");
-const certificate = fs.readFileSync(__dirname + "/certificate.crt", "utf8");
-const ca = fs.readFileSync(__dirname + "/ca_bundle.crt", "utf8");
-const credentials = {
-  key: privateKey,
-  cert: certificate,
-  ca: ca,
-};
+// const privateKey = fs.readFileSync(__dirname + "/private.key", "utf8");
+// const certificate = fs.readFileSync(__dirname + "/certificate.crt", "utf8");
+// const ca = fs.readFileSync(__dirname + "/ca_bundle.crt", "utf8");
+// const credentials = {
+//   key: privateKey,
+//   cert: certificate,
+//   ca: ca,
+// };
 
 //https 미들웨어 정의
 const app = express();
@@ -36,11 +36,11 @@ app.get("/", (req, res) => {
 });
 
 app.get(
-  "/.well-known/pki-validation/3F31E25B13B32EC5CF532FFC1868B24A.txt",
+  "/.well-known/pki-validation/3E8040004D63B5806FC90DA247FE5C22.txt",
   (req, res) => {
     res.sendFile(
       __dirname +
-        "/well-known/pki-validation/3F31E25B13B32EC5CF532FFC1868B24A.txt"
+        "/well-known/pki-validation/3E8040004D63B5806FC90DA247FE5C22.txt"
     );
   }
 );
@@ -53,6 +53,6 @@ http.createServer(app_low).listen(httpPort, () => {
   console.log("http 서버가 켜졌어요");
 });
 
-https.createServer(credentials, app).listen(httpsPort, () => {
-  console.log("https 서버가 켜졌어요");
-});
+// https.createServer(credentials, app).listen(httpsPort, () => {
+//   console.log("https 서버가 켜졌어요");
+// });
