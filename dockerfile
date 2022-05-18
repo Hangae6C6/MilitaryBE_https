@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1
 
-FROM node:current-slim
+FROM node:current-alpine
 ENV NODE_ENV=production
 
 WORKDIR /app
 
-COPY . .
+COPY . /app/private.key
 
 RUN npm install
 
