@@ -158,6 +158,12 @@ app.use("/api", [
   kakaoRouter,
 ]);
 
+//에러 핸들러
+app.use(function (err, req, res, next) {
+  console.error(err);
+  res.status(500).send("Something Broke!");
+});
+
 // app.listen(port, () => {
 //   console.log(port, "번으로 서버가 켜졌어요!");
 // });
