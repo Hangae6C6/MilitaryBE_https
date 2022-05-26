@@ -63,23 +63,23 @@ const requestMiddleware = (req, res, next) => {
 
 //https 리다이렉션
 //app_low : http 전용 미들웨어
-app_low.use((req, res, next) => {
-  if (req.secure) {
-    next();
-  } else {
-    const to = `https://${req.hostname}:${httpPort}${req.url}`;
-    console.log(to);
-    res.redirect(to);
-  }
-});
+// app.use((req, res, next) => {
+//   if (req.secure) {
+//     next();
+//   } else {
+//     const to = `https://${req.hostname}:${httpPort}${req.url}`;
+//     console.log(to);
+//     res.redirect(to);
+//   }
+// });
 
-const io = new Server(server, {
-  cors: {
-    origin: "*",
-    credentials: true,
-    methods: ["GET", "POST"],
-  },
-});
+// const io = new Server(server, {
+//   cors: {
+//     origin: "*",
+//     credentials: true,
+//     methods: ["GET", "POST"],
+//   },
+// });
 
 io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
@@ -128,7 +128,7 @@ app.use(cors());
 //   res.send("mainPage");
 // });
 
-app_low.get(
+app.get(
   "/.well-known/pki-validation/FC0E77FDDE5C9A0FE9EDFBECB61F1075.txt",
   (req, res) => {
     res.sendFile(
@@ -156,13 +156,13 @@ app.use(function (err, req, res, next) {
   res.status(500).send("Something Broke!");
 });
 
-// app.listen(port, () => {
-//   console.log(port, "번으로 서버가 켜졌어요!");
-// });
-
-http.createServer(app_low).listen(httpPort, () => {
-  console.log("http 서버가 켜졌어요");
+app.listen(port, () => {
+  console.log(port, "번으로 서버가 켜졌어요!");
 });
+
+// http.createServer(app_low).listen(httpPort, () => {
+//   console.log("http 서버가 켜졌어요");
+// });
 
 // https.createServer(credentials, app).listen(httpsPort, () => {
 //   console.log("https 서버가 켜졌어요");
