@@ -120,7 +120,7 @@ app.use(requestMiddleware);
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan("combined"));
-app.use(helmet({ contentSecurityPolicy: false }));
+// app.use(helmet({ contentSecurityPolicy: false }));
 app.use(hpp());
 app.use(cors());
 
