@@ -6,7 +6,8 @@ const {
     detailJoinList_id,
     detailJoinList_challengeNum,
     detailJoinout,
-    detailSteps
+    detailSteps,
+    challengeRank
 } = require("../controllers/detail");
 const authMiddleware = require("../middleware/authMiddleWare");
 
@@ -31,5 +32,8 @@ router.delete('/challengeout',authMiddleware, detailJoinout);
 
 //첼린지상세페이지 step 
 router.post('/challengeStep',authMiddleware, detailSteps);
+
+//챌린지 Ranking
+router.get('/challengeRanking',authMiddleware,challengeRank)
 
 module.exports = router;

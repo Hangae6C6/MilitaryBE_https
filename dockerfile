@@ -1,15 +1,13 @@
-# syntax=docker/dockerfile:1
-
-FROM node:current-alpine
-ENV NODE_ENV=production
+FROM node:16.14.2
 
 WORKDIR /app
 
-COPY . /app/private.key
+COPY package.json .
 
 RUN npm install
 
-EXPOSE 4433
+COPY . .
 
-CMD [ "node", "app.js" ]
+EXPOSE 3000
 
+CMD ["node", "app.js"]

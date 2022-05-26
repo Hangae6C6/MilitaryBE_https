@@ -2,10 +2,11 @@ const express = require("express");
 const { UserData,User } = require("../models");
 
 //사용자 정보 추가 기능
-//썬더클라이언트 테스트 완료
+//썬더클라이언트 테스트 완료 - 현재 유지 통과
 const userOptioalData = async (req, res) => {
+  const {userId} = req.query
   const { startDate, endDate, armyCategory, rank } = req.body;
-  const { userId } = res.locals.user; //저장
+  // const { userId } = res.locals.user; //저장
 
   //DB에 사용자 추가 데이터 저장
   // await UserData.create({ userId });

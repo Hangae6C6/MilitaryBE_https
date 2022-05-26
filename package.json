@@ -1,22 +1,15 @@
 {
-  "name": "militarybe_https",
+  "name": "soldier_project",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Hangae6C6/MilitaryBE_https.git"
+    "devStart": "nodemon app.js",
+    "start": "ng serve --ssl --ssl-key rootca.key --ssl-cert rootca.crt"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Hangae6C6/MilitaryBE_https/issues"
-  },
-  "homepage": "https://github.com/Hangae6C6/MilitaryBE_https#readme",
   "dependencies": {
     "app-root-path": "^3.0.0",
     "axios": "^0.27.2",

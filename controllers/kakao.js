@@ -1,4 +1,3 @@
-
 const express = require('express');
 const rp = require('request-promise');
 const {User} = require("../models");
@@ -7,8 +6,8 @@ require("dotenv").config();
 
 const kakao = {
     clientid: `${process.env.CLIENTED}`, //REST API
-    redirectUri : 'http://localhost:3000/api/auth/kakao/callback'
-}
+    redirectUri : 'http://localhost:3000/api/auth/kakao/callback' // 이따가 우리껄로 바꾸고 하기 
+};
 
 // kakao login page URL --> HTML BUTTON CLICK --> ROUTER.KAKAOLOGIN
 const  kakaoLogin = async (req,res) => {
@@ -34,8 +33,8 @@ const kakaoRegister = async (req,res) => {
         headers: {
             "content-type" : "application/x-www-form-urlencoded"
         },
-        json: true
-    }
+        json: true,
+    };
     
    const kakaotoken = await rp(options);
    //console.log("ttttttttt",kakaotoken);
@@ -46,10 +45,10 @@ const kakaoRegister = async (req,res) => {
             Authorization: `Bearer ${kakaotoken.access_token}`,
             'Content-type' : 'application/x-www-form-urlencoded;charset=utf-8'
         },
-        json: true
-    }
+        json: true,
+    };
     const userInfo = await rp(options1);
-    console.log("1111111111",userInfo);
+    // console.log("1111111111",userInfo);
    
     const userId = userInfo.id;
     const userNick = userInfo.kakao_account.profile.nickname;
@@ -57,30 +56,28 @@ const kakaoRegister = async (req,res) => {
     // console.log('userId-->',userId);
     // console.log('userNick-->',userNick);
 
-    // console.log("222222222",existUser);
-     try{
+   
+   
         if(!existUser){
             const from = 'kakao'
             // const user = new User({ userId, userNick, from })
-            await User.create({ userId, userNick, from });
+            await User.create({ userId, userNick, from }); //? create가 save()랑 같나? 
         }
     
         const loginUser = await User.findOne({where: { userId: userId }});
-        const token = jwt.sign({ userId : loginUser.userId }, `${process.env.KEY}`);
+        // console.log("222222222",userId);
+        // console.log("33333333",loginUser.dataValues.userId);
+        const token = jwt.sign({ userId : loginUser.dataValues.userId }, `${process.env.KEY}`); // 이부분 바꿨는데 userId : loginUser.userId --> ? 
 
-        // redi -> main -> ? 
-    
+
+        console.log("12321321",loginUser);
+        // console.log(loginUser)
+
         res.status(200).json({
             token,
             userId,
             userNick,
         });
-     } catch(error) {
-        console.log("카카오로그인오류"); 
-        console.log(error); 
-        res.status(400).json({ result: "이미 등록된 유저입니다."}); 
-        return;
-     }
 };
 
 module.exports = {kakaoLogin,kakaoRegister};

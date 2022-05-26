@@ -5,7 +5,7 @@ const authMiddleware = require("../middleware/authMiddleWare");
 require("dotenv").config();
 
 //사용자 정보 추가 기능
-router.post("/userData", authMiddleware, userOptioalData);
+router.post("/userData", userOptioalData);
 
 //테스트결과 추가 기능
 router.post("/userTest", authMiddleware, saveTestResult);

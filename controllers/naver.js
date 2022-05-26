@@ -6,76 +6,69 @@ require("dotenv").config();
 
 const naver = {
     clientid: `${process.env.NAVER_CLIENT_ID}`, //REST API
-    redirectUri	: 'http://localhost:3000/api/auth/naver/callback'
-}
+    redirectUri	: 'http://localhost:3000/api/auth/naver/callback',
+    client_secret : `${process.env.NAVER_CLIENT_SECRET}`,
+    state : 'login'
+};
 
 // kakao login page URL --> HTML BUTTON CLICK --> ROUTER.KAKAOLOGIN
 const  naverLogin = async (req,res) => {
-    const naverAuthURL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&redirect_uri=${NAVER_CALLBACK_URL}`
-    console.log("sdsdsd",naverAuthURL);
+    const naverAuthURL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naver.clientid}&redirect_uri=${naver.redirectUri}&state=${naver.state}`;
     res.redirect(naverAuthURL);
 };
 
 // naver register --> REDIRECT URI
 const naverRegister = async (req,res) => {
-
-    const { code,state } = req.query;
-    console.log("123213213213123",code,state);
-    const options = {
-        url : "https://nid.naver.com/oauth2.0/token",
-        method : 'POST',
-        form: {
-            grant_type: "authorization_code",
-            client_id: naver.clientid,
-            redirect_uri: naver.redirectUri,
-            code: code,
-            state:state
-        },
-        headers: {
-            "content-type" : "application/x-www-form-urlencoded"
-        },
-        json: true
-    }
     
-   const navertoken = await rp(options);
-   console.log("ttttttttt",navertoken);
-   const options1 = {
-        url : "https://openapi.naver.com/v1/nid/me",
-        method : 'GET',
-        headers: {
-            Authorization: `Bearer ${navertoken.access_token}`,
-            'Content-type' : 'application/x-www-form-urlencoded;charset=utf-8'
-        },
-        json: true
-    }
-    const userInfo = await rp(options1);
-    // console.log("1111111111",userInfo);
-   
-    const userId = userInfo.id;
-    const userNick = userInfo.naver_account.profile.nickname;
-    const existUser = await User.findOne({userId});
+    const code = req.query.code;
+    const state = req.query.state;
+    const naver_api_url = 'https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id='
+     + naver.clientid + '&client_secret=' + naver.client_secret + '&redirect_uri=' + naver.redirectUri + '&code=' + code + '&state=' + state;
 
-     try{
-        if(!existUser.dataValues){
-            const from = 'naver'
-            const user = new User({ userId, userNick, from })
-            await User.create({ userId, userNick, from });
+    var options = {
+        url: naver_api_url,
+        headers: {
+            'X-Naver-Client-Id':naver.clientid,
+            'X-Naver-Client-Secret': naver.client_secret
         }
-    
-        const loginUser = await User.findOne({userId});
-        const token = jwt.sign({ userId : loginUser.userId }, `${process.env.KEY}`);
-    
-        res.status(200).json({
-            token,
-            userId,
-            userNick
-        });
-     } catch(error) {
-        console.log("네이버로그인오류"); 
-        console.log(error); 
-        res.status(400).json({ result: "이미 등록된 유저입니다."}); 
-        return;
-     }
-};
+     };
+     const result = await rp.get(options);
+    //  console.log('result->', result)
+     const naverToken = JSON.parse(result).access_token;
+    //  console.log('naverToken->', naverToken);
 
+     const info_options = {
+        url: 'https://openapi.naver.com/v1/nid/me',
+        headers: {'Authorization': 'Bearer ' + naverToken}
+    };
+
+    const info_result = await rp.get(info_options);
+  	// string 형태로 값이 담기니 JSON 형식으로 parse를 해줘야 한다.
+    const info_result_json = JSON.parse(info_result).response;
+    // console.log('info->', info_result_json);
+    const userId = info_result_json.id;
+    const userNick = info_result_json.nickname;
+
+    // 가입여부 중복확인
+    const existUser = await User.findOne({where: { userId: userId }});
+    console.log("existUser-->", existUser);
+  
+    if (!existUser) {
+      const from = "naver";
+      await User.create({ userId, userNick, from });
+    }
+  
+    const loginUser = await User.findOne({where: { userId: userId }});
+    // console.log("loginUser-->", loginUser);
+    var naverId = loginUser[0].userId
+    var naverNick = loginUser[0].userNick
+    const token = jwt.sign({ userId: loginUser[0].userId }, `${process.env.KEY}`);
+    // console.log("token-->", token);
+    res.status(200).send({
+      token,
+      naverId,
+      naverNick
+    });
+
+};
 module.exports = {naverLogin,naverRegister};

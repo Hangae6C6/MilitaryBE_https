@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     userId: DataTypes.STRING,
     challengeNum: DataTypes.STRING,
     progress: DataTypes.STRING,
+    userNick: DataTypes.STRING,
     challengeJoinNumber:{
       type: DataTypes.INTEGER,
       primaryKey: true,

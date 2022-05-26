@@ -74,45 +74,37 @@ app_low.use((req, res, next) => {
 });
 
 const io = new Server(server, {
-  // cors: {
-  //   origin: "http://localhost:3000", //여기에 명시된 서버만 내서버로 연결을 허용
-  //   methods: ["GET", "POST"],
-  // },
+  cors: {
+    origin: "*",
+    credentials: true,
+    methods: ["GET", "POST"],
+  },
 });
 
 io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
-  socket.emit("msg", `${socket.id} 입장하셨습니다.`);
 
   socket.on("join_room", (data) => {
     socket.join(data);
     console.log(`User with ID: ${socket.id} joined room: ${data}`);
   });
 
-  socket.onAny((eventName, ...args) => {
-    console.log(eventName);
-  });
-
-  socket.on("msg", function (data) {
-    console.log(socket.id, data);
-
-    socket.emit("msg", `Server : "${data}" 받았습니다.`);
-  });
-
-  socket.emit("send_message", `${socket.id} 입장하셨습니다.`);
-
   socket.on("send_message", (data) => {
     socket.to(data.room).emit("receive_message", data);
   });
 
-  socket.on("leave_room", (room) => {
-    console.log("???");
-    socket.leave(room);
-    console.log(`${socket.id}님께서 나가셨습니다.`);
+  socket.on("disconnect", () => {
+    console.log("User Disconnected", socket.id);
   });
 
-  socket.on("disconnect", () => {
-    console.log("나갔니?");
+  socket.on("leave-room", (roomName, done) => {
+    socket.leave(roomName);
+    done();
+    console.log("나 나갔어");
+    // const rooms = getUserRooms();
+    // if (!rooms.includes(roomName)) {
+    io.emit("remove-room", roomName);
+    console.log("방 삭제되었음");
   });
 });
 

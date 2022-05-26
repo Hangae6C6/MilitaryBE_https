@@ -3,7 +3,7 @@ const sequelize = require("sequelize");
 const { or, and, like } = sequelize.Op;
 
 //마이페이지 조회 GET
-//썬더클라이언트 테스트 완료
+//썬더클라이언트 테스트 완료 - 현재 유지 통과
 const myPage = async (req, res) => {
     try {
         const {userId} = req.query
@@ -23,16 +23,23 @@ const myPage = async (req, res) => {
 
 //프로필 조회 GET
 //썬더클라이언트 테스트 완료
-//예외처리를 해야함
+//예외처리를 해야함 - 현재 유지 통과
 const userProfileread = async (req, res) => {
     try {
         const {userId} = req.query //보내는곳은 같고, auth(통일)
         // console.log(userId) 
         const userdata = await UserData.findOne({
+            include:{
+                model:User,attributes:['userNick']
+            },
             where:{
                 userId:userId
             },
         })
+        // const userNick = await User.findOne({
+        //     attributes:['userNick'],
+        //     where:{userId},
+        // })
         res.status(200).json({result:true,msg:"프로필 조회 성공",userdata});
     }catch(error) {
         console.log(error)
@@ -45,12 +52,17 @@ const userProfileread = async (req, res) => {
 //썬더클라이언트 테스트 완료
 const userProfileput = async (req, res) => {
     const {userId} = req.query
-    const {armyCategory,rank} = req.body
+    const {armyCategory,rank,startDate,endDate} = req.body
+    const {userNick} = req.body
     // const {rank} = req.body
     try {
-        
-        const armymodify = await UserData.update({armyCategory:armyCategory,rank:rank},{
+        const armymodify = await UserData.update({armyCategory:armyCategory,startDate:startDate,endDate:endDate,rank:rank},{
             where: {
+                userId:userId,
+            }
+        })
+        const usermodify = await User.update({userNick},{
+            where:{
                 userId:userId,
             }
         })
@@ -59,7 +71,7 @@ const userProfileput = async (req, res) => {
         //         userId:userId,
         //     }
         // })
-        return res.status(201).json({result:true,msg:"프로필 수정 완료",armymodify});
+        return res.status(201).json({result:true,msg:"프로필 수정 완료",armymodify,usermodify});
 
     }catch(error) {
         console.log(error)

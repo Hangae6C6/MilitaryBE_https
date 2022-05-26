@@ -1,4 +1,4 @@
-const { Challenge, User } = require("../models");
+const { Challenge, User, ChallengeJoin, Test, MainNav } = require("../models");
 const sequelize = require("sequelize");
 const { or, and, like, eq } = sequelize.Op;
 
@@ -32,19 +32,29 @@ const mainPage = async (req, res) => {
 const userChallenge = async (req, res) => {
   const { userId } = req.query;
 
-  console.log(userId);
-  const challenge = await Challenge.findAll({
-    where: { userId: userId },
-  });
-  let sum = 0;
-  for (let i = 0; i < challenge.length; i++) {
-    sum += parseInt(challenge[i].dataValues.challengeProgress);
-  }
+  try {
+    console.log(userId);
+    const challenge = await ChallengeJoin.findAll({
+      where: { userId: userId },
+    });
+    // console.log(challenge.length);
+    // console.log("challenge : ", challenge[0].dataValues.progress);
+    let sum = 0;
+    for (let i = 0; i < challenge.length; i++) {
+      sum += parseInt(challenge[i].dataValues.progress);
+    }
 
-  let totalChallengeProgress = Math.round(sum / challenge.length);
-  // // console.log("progressSum: ", sum);
-  // console.log("progressAvg: ", totalChallengeProgress);
-  return res.status(201).json({ userId, totalChallengeProgress });
+    let totalChallengeProgress = Math.round(sum / challenge.length);
+    // // console.log("progressSum: ", sum);
+    // console.log("progressAvg: ", totalChallengeProgress);
+    return res.status(201).json({ userId, totalChallengeProgress });
+  } catch (error) {
+    console.log(error, "메인페이지 토탈챌린지 진행률 가져오기 에러");
+    res.status(400).json({
+      result: false,
+      msg: "메인페이지 토탈챌린지 진행률 가져오기 에러",
+    });
+  }
 };
 
 //사전 테스트 입력 라우터
@@ -103,7 +113,6 @@ const categoryClick = async (req, res) => {
     { challengeViewCnt: 1 },
     { where: { challengeNum } }
   );
-
   // console.log(clickedChallenge.dataValues.challengeViewCnt);
   res.status(201).send({});
 };
@@ -111,37 +120,100 @@ const categoryClick = async (req, res) => {
 //챌린지개설
 const openChallenge1 = async (req, res) => {
   const { userId } = res.locals.user;
+
   const {
-    challengeTitle, // 최대 글자수 7개 
-    challengeType, // 비어있으면 안되게 
-    challengeStartDate, // 숫자만 쓸수있게  월 - 일 - 년도 "-" 값을 넣어주세요  !
-    challengeEndDate, // 숫자만 쓸수있게 앞에2개쓰게 
-    steps, // max 10자 빈값안되고 , 널값도 안되고, 글자는 2자 이상! 
-    challengeLimitNum,
+    challengeTitle, // 최대 글자수 7개
+    challengeType, // 비어있으면 안되게
+    challengeStartDate, // 숫자만 쓸수있게  월 - 일 - 년도 "-" 값을 넣어주세요  ! 20-05-2022
+    challengeEndDate, // 숫자만 쓸수있게 앞에2개쓰게
+    steps, // max 10자 빈값안되고 , 널값도 안되고, 글자는 2자 이상!
+    challengeLimitNum, // 최소인원수 2명이상
   } = req.body.challenges;
 
-  // console.log("111111111", req.body.challenges.steps);
+  //벨리데이션체크
+  const checTitledLen = /^.{2,7}$/;
+  const checkStepLen = /^.{2,10}$/;
+  const dateExp = /^(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])-(19|20)\d{2}$/;
 
-  //벨리데이션체크 
-  // function strCheck(str,min,max,type){
-  //   const result = {result:true , msg:""};
-  //   if(str===undefined || str===null || str===""){
-  //     result=false;
-  //     msg=type+" 값이 공백입니다.";
-  //     return result;
-  //   }else if(str.length>max){
-  //     result=false;
-  //     msg=type+" 값이 최대 입력 값보다 큽니다.";
-  //     return result;
-  //   }else if(str.length<min){
-  //     result=false;
-  //     msg=type+" 값이 최소 입력 값보다 작습니다.";
-  //     return result;
-  //   }
-  //   return result;
-  // };
-  
+  if (
+    challengeTitle === "" ||
+    challengeTitle === undefined ||
+    challengeTitle === null
+  ) {
+    res.status(400).json({
+      msg: "챌린지타이틀을 입력하세요",
+    });
+    return;
+  } else if (!checTitledLen.test(challengeTitle)) {
+    res.status(401).json({
+      msg: "챌린지타이틀은 2~7자 입니다.",
+    });
+    return;
+  } else if (
+    challengeType === "" ||
+    challengeType === undefined ||
+    challengeType === null
+  ) {
+    res.status(400).json({
+      msg: "챌린지타입을 선택해주세요",
+    });
+    return;
+  } else if (
+    challengeStartDate === "" ||
+    challengeStartDate === undefined ||
+    challengeStartDate === null
+  ) {
+    res.status(400).json({
+      msg: "시작일을 입력하세요.",
+    });
+    return;
+  } else if (!dateExp.test(challengeStartDate)) {
+    res.status(400).json({
+      msg: "시작일의형태를 맞춰주세요(MM-DD-YYYY)",
+    });
+    return;
+  } else if (
+    challengeEndDate === "" ||
+    challengeEndDate === undefined ||
+    challengeEndDate === null
+  ) {
+    res.status(400).json({
+      msg: "종료일을 입력하세요.",
+    });
+    return;
+  } else if (!dateExp.test(challengeEndDate)) {
+    res.status(400).json({
+      msg: "종료일의형태를 맞춰주세요(MM-DD-YYYY)",
+    });
+    return;
+  } else if (challengeLimitNum <= 2) {
+    res.status(400).json({
+      msg: "최소인원수는 2명이상입니다.",
+    });
+    return;
+  }
 
+  if (steps.length == 0) {
+    res.status(400).json({
+      msg: "스텝을 최소 1개 이상 입력해주세요",
+    });
+    return;
+  } else {
+    for (var i = 1; i < steps.length; i++) {
+      var content = steps[i].stepContent;
+      if (content == "" || content == null || content == undefined) {
+        res.status(400).json({
+          msg: i + 1 + "번째 스텝의 컨텐츠를 입력해주세요",
+        });
+        return;
+      } else if (!checkStepLen.test(content)) {
+        res.status(400).json({
+          msg: "챌린지스탭컨텐츠는 2~10자 입니다.",
+        });
+        return;
+      }
+    }
+  }
 
   // challengeNum은 자동생성,
 
@@ -297,6 +369,88 @@ const joinCancelChallenge = async (req, res) => {
   }
 };
 
+//메인페이지에서 테스트 조회한 사람 숫자 POST
+const testCount = async (req, res) => {
+  const { userId } = req.query;
+  try {
+    const click = await Test.findOne({ where: { userId } });
+    await Test.increment({ testCount: 1 }, { where: { userId } });
+    res.status(201).json({ result: true, msg: "챌린지", click });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ result: false, msg: "챌린지 테스트 조회수 실패" });
+  }
+};
+
+//메인페이지에서 테스트 조회한 사람 숫자 GET
+const testCountRead = async (req, res) => {
+  try {
+    const [countread] = await Test.findAll();
+    res
+      .status(200)
+      .json({ result: true, msg: "테스트 조회수 가져오기 성공", countread });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ result: false, msg: "테스트 조회수 가져오기 실패" });
+  }
+};
+
+//메인페이지 클릭시 불들어오게하기 POST
+const iconClick = async (req, res) => {
+  const { btnNum } = req.query;
+  // console.log("--------->", req.query);
+  try {
+    // console.log(btnNum);
+    const btnResult = await MainNav.findOne({ where: { id: 1 } });
+    // console.log(
+    //   btnResult.dataValues.home,
+    //   btnResult.dataValues.search,
+    //   btnResult.dataValues.mypage
+    // );
+
+    if (btnNum == 1) {
+      console.log("11111111111");
+      await MainNav.update(
+        { home: 1, search: 0, mypage: 0 },
+        { where: { id: 1 } }
+      );
+    } else if (btnNum == 2) {
+      console.log("22222222222");
+      await MainNav.update(
+        { home: 0, search: 1, mypage: 0 },
+        { where: { id: 1 } }
+      );
+    } else if (btnNum == 3) {
+      console.log("33333333333");
+      await MainNav.update(
+        { home: 0, search: 0, mypage: 1 },
+        { where: { id: 1 } }
+      );
+    }
+    const clickedResult = await MainNav.findOne({ where: { id: 1 } });
+
+    res.status(201).json({ result: true, msg: "clicked Btn", clickedResult });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ result: false, msg: "fail to click" });
+  }
+};
+
+const iconClick2 = async (req, res) => {
+  try {
+    const [iconRead] = await MainNav.findAll();
+    res
+      .status(200)
+      .json({ result: true, msg: "Nav바 가져오기 성공", iconRead });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ result: false, msg: "Nav바 가져오기 실패" });
+  }
+};
+
+
+
+
 module.exports = {
   mainPage,
   userChallenge,
@@ -304,4 +458,8 @@ module.exports = {
   preTest,
   search,
   openChallenge1,
+  testCount,
+  testCountRead,
+  iconClick,
+  iconClick2
 };
