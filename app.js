@@ -124,9 +124,9 @@ app.use(helmet({ contentSecurityPolicy: false }));
 app.use(hpp());
 app.use(cors());
 
-app.get("/", (req, res) => {
-  res.send("mainPage");
-});
+// app.get("/", (req, res) => {
+//   res.send("mainPage");
+// });
 
 app_low.get(
   "/.well-known/pki-validation/FC0E77FDDE5C9A0FE9EDFBECB61F1075.txt",
