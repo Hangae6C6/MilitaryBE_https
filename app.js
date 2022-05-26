@@ -8,7 +8,7 @@ const morgan = require("morgan");
 const winston = require("winston");
 const hpp = require("hpp");
 const helmet = require("helmet");
-const html = "<script>location.href = 'https://gilbut.co.kr'</script>";
+// const html = "<script>location.href = 'https://gilbut.co.kr'</script>";
 const cors = require("cors");
 
 const app = express();
@@ -22,7 +22,7 @@ const sanitizeHtml = require("sanitize-html");
 
 const httpPort = 3000;
 const httpsPort = 4433;
-console.log(sanitizeHtml(html));
+// console.log(sanitizeHtml(html));
 
 //인증서 불러오기
 const privateKey = fs.readFileSync(__dirname + "/private.key", "utf8");
@@ -121,7 +121,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan("combined"));
 // app.use(helmet({ contentSecurityPolicy: false }));
-app.use(hpp());
+// app.use(hpp());
 app.use(cors());
 
 app.get("/", (req, res) => {
