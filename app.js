@@ -129,11 +129,11 @@ app.get("/", (req, res) => {
 });
 
 app.get(
-  "/.well-known/pki-validation/3F31E25B13B32EC5CF532FFC1868B24A.txt",
+  "/.well-known/pki-validation/FC0E77FDDE5C9A0FE9EDFBECB61F1075.txt",
   (req, res) => {
     res.sendFile(
       __dirname +
-        "/well-known/pki-validation/3F31E25B13B32EC5CF532FFC1868B24A.txt"
+        "/well-known/pki-validation/FC0E77FDDE5C9A0FE9EDFBECB61F1075.txt"
     );
   }
 );
