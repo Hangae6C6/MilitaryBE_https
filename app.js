@@ -75,11 +75,11 @@ app_low.use((req, res, next) => {
 });
 
 const io = new Server(server, {
-  cors: {
-    origin: "*",
-    credentials: true,
-    methods: ["GET", "POST"],
-  },
+  // cors: {
+  //   origin: "*",
+  //   credentials: true,
+  //   methods: ["GET", "POST"],
+  // },
 });
 
 io.on("connection", (socket) => {
