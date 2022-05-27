@@ -10,6 +10,7 @@ const hpp = require("hpp");
 const helmet = require("helmet");
 // const html = "<script>location.href = 'https://gilbut.co.kr'</script>";
 const cors = require("cors");
+app.use(cors());
 
 const app = express();
 const app_low = express();
@@ -122,7 +123,6 @@ app.use(bodyParser.json());
 app.use(morgan("combined"));
 // app.use(helmet({ contentSecurityPolicy: false }));
 // app.use(hpp());
-app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("mainPage");
