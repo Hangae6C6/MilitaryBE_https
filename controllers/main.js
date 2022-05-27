@@ -23,6 +23,7 @@ const { or, and, like, eq } = sequelize.Op;
 
 //메인페이지 챌린지 보여주기 라우터 (회원, 비회원 구분X)
 const mainPage = async (req, res) => {
+  console.log("-------->msg")
   const challenge = await Challenge.findAll();
   return res.status(201).json(challenge);
 };
