@@ -24,6 +24,7 @@ const sanitizeHtml = require("sanitize-html");
 const httpPort = 3000;
 const httpsPort = 4433;
 // console.log(sanitizeHtml(html));
+app.use(cors());
 sequelize 
   .sync({ force: false }) 
   .then(() => { console.log("데이터베이스 연결 성공"); 
@@ -72,7 +73,6 @@ const requestMiddleware = (req, res, next) => {
   next();
 };
 
-app.use(cors());
 //https 리다이렉션
 //app_low : http 전용 미들웨어
 app_low.use((req, res, next) => {
