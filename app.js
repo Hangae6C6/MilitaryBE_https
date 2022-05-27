@@ -13,7 +13,7 @@ const { sequelize } = require("./models");
 const cors = require("cors");
 
 const app = express();
-const app_low = express();
+// const app_low = express();
 
 const { Server } = require("socket.io");
 const server = http.createServer(app);
@@ -21,8 +21,8 @@ const passport = require("passport");
 const session = require("express-session");
 const sanitizeHtml = require("sanitize-html");
 
-const httpPort = 3000;
-const httpsPort = 4433;
+// const httpPort = 3000;
+// const httpsPort = 4433;
 // console.log(sanitizeHtml(html));
 app.use(cors());
 sequelize 
@@ -37,14 +37,14 @@ sequelize
 
 
 //인증서 불러오기
-const privateKey = fs.readFileSync(__dirname + "/private.key", "utf8");
-const certificate = fs.readFileSync(__dirname + "/certificate.crt", "utf8");
-const ca = fs.readFileSync(__dirname + "/ca_bundle.crt", "utf8");
-const credentials = {
-  key: privateKey,
-  cert: certificate,
-  ca: ca,
-};
+// const privateKey = fs.readFileSync(__dirname + "/private.key", "utf8");
+// const certificate = fs.readFileSync(__dirname + "/certificate.crt", "utf8");
+// const ca = fs.readFileSync(__dirname + "/ca_bundle.crt", "utf8");
+// const credentials = {
+//   key: privateKey,
+//   cert: certificate,
+//   ca: ca,
+// };
 
 //https 미들웨어 정의
 
@@ -75,15 +75,15 @@ const requestMiddleware = (req, res, next) => {
 
 //https 리다이렉션
 //app_low : http 전용 미들웨어
-app_low.use((req, res, next) => {
-  if (req.secure) {
-    next();
-  } else {
-    const to = `https://${req.hostname}:${httpPort}${req.url}`;
-    console.log(to);
-    res.redirect(to);
-  }
-});
+// app_low.use((req, res, next) => {
+//   if (req.secure) {
+//     next();
+//   } else {
+//     const to = `https://${req.hostname}:${httpPort}${req.url}`;
+//     console.log(to);
+//     res.redirect(to);
+//   }
+// });
 
 const io = new Server(server, {
   cors: {
@@ -139,15 +139,15 @@ app.get("/", (req, res) => {
   res.send("mainPage");
 });
 
-app.get(
-  "/.well-known/pki-validation/479CA8BBE82722022860E04CE3AFF333.txt",
-  (req, res) => {
-    res.sendFile(
-      __dirname +
-        "/well-known/pki-validation/479CA8BBE82722022860E04CE3AFF333.txt"
-    );
-  }
-);
+// app.get(
+//   "/.well-known/pki-validation/479CA8BBE82722022860E04CE3AFF333.txt",
+//   (req, res) => {
+//     res.sendFile(
+//       __dirname +
+//         "/well-known/pki-validation/479CA8BBE82722022860E04CE3AFF333.txt"
+//     );
+//   }
+// );
 
 //라우터 연결
 app.use("/api", [
@@ -167,14 +167,14 @@ app.use(function (err, req, res, next) {
   res.status(500).send("Something Broke!");
 });
 
-// app.listen(httpPort, () => {
-//   console.log(httpPort, "번으로 서버가 켜졌어요!");
+app.listen(httpPort, () => {
+  console.log(httpPort, "번으로 서버가 켜졌어요!");
+});
+
+// http.createServer(app_low).listen(httpPort, () => {
+//   console.log("http 서버가 켜졌어요");
 // });
 
-http.createServer(app_low).listen(httpPort, () => {
-  console.log("http 서버가 켜졌어요");
-});
-
-https.createServer(credentials, app).listen(httpsPort, () => {
-  console.log("https 서버가 켜졌어요");
-});
+// https.createServer(credentials, app).listen(httpsPort, () => {
+//   console.log("https 서버가 켜졌어요");
+// });
