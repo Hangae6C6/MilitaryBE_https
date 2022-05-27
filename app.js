@@ -167,8 +167,8 @@ app.use(function (err, req, res, next) {
   res.status(500).send("Something Broke!");
 });
 
-app.listen(httpPort, () => {
-  console.log(httpPort, "번으로 서버가 켜졌어요!");
+app.listen(3000, () => {
+  console.log(3000, "번으로 서버가 켜졌어요!");
 });
 
 // http.createServer(app_low).listen(httpPort, () => {
