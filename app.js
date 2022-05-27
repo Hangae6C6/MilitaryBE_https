@@ -37,9 +37,9 @@ sequelize
 
 
 //인증서 불러오기
-const privateKey = fs.readFileSync(__dirname + "/soldierchallengers_com.key", "utf8");
-const certificate = fs.readFileSync(__dirname + "/soldierchallengers_com__crt.pem", "utf8");
-const ca = fs.readFileSync(__dirname + "/soldierchallengers_com__ca.pem", "utf8");
+const privateKey = fs.readFileSync(__dirname + "/pizzaboy_shop.key", "utf8");
+const certificate = fs.readFileSync(__dirname + "/pizzaboy_shop__crt.pem", "utf8");
+const ca = fs.readFileSync(__dirname + "/pizzaboy_shop__ca.pem", "utf8");
 const credentials = {
   key: privateKey,
   cert: certificate,
