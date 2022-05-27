@@ -23,6 +23,16 @@ const sanitizeHtml = require("sanitize-html");
 const httpPort = 3000;
 const httpsPort = 4433;
 // console.log(sanitizeHtml(html));
+sequelize 
+  .sync({ force: false }) 
+  .then(() => { console.log("데이터베이스 연결 성공"); 
+  }) 
+  .catch((err) => {
+    console.error(err); 
+  });
+
+
+
 
 //인증서 불러오기
 const privateKey = fs.readFileSync(__dirname + "/private.key", "utf8");
