@@ -10,7 +10,6 @@ const hpp = require("hpp");
 const helmet = require("helmet");
 // const html = "<script>location.href = 'https://gilbut.co.kr'</script>";
 const cors = require("cors");
-app.use(cors());
 
 const app = express();
 const app_low = express();
@@ -62,6 +61,7 @@ const requestMiddleware = (req, res, next) => {
   next();
 };
 
+app.use(cors());
 //https 리다이렉션
 //app_low : http 전용 미들웨어
 app_low.use((req, res, next) => {
