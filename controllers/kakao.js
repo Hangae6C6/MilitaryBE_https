@@ -6,13 +6,12 @@ require("dotenv").config();
 
 const kakao = {
     clientid: `${process.env.CLIENTED}`, //REST API
-    redirectUri : 'http://localhost:3000/api/auth/kakao/callback' // 이따가 우리껄로 바꾸고 하기 
+    redirectUri : 'https://soldierchallengers.com' 
 };
 
 // kakao login page URL --> HTML BUTTON CLICK --> ROUTER.KAKAOLOGIN
 const  kakaoLogin = async (req,res) => {
     const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${kakao.clientid}&redirect_uri=${kakao.redirectUri}`
-    // console.log("sdsdsd",kakaoAuthURL);
     res.redirect(kakaoAuthURL);
 };
 
@@ -20,7 +19,6 @@ const  kakaoLogin = async (req,res) => {
 const kakaoRegister = async (req,res) => {
 
     const { code } = req.query;
-    // console.log("123213213213123",code);
     const options = {
         url : "https://kauth.kakao.com/oauth/token",
         method : 'POST',
@@ -37,7 +35,7 @@ const kakaoRegister = async (req,res) => {
     };
     
    const kakaotoken = await rp(options);
-   //console.log("ttttttttt",kakaotoken);
+
    const options1 = {
         url : "https://kapi.kakao.com/v2/user/me",
         method : 'GET',
@@ -48,30 +46,20 @@ const kakaoRegister = async (req,res) => {
         json: true,
     };
     const userInfo = await rp(options1);
-    // console.log("1111111111",userInfo);
+   
    
     const userId = userInfo.id;
     const userNick = userInfo.kakao_account.profile.nickname;
     const existUser = await User.findOne({where: { userId: userId }});
-    // console.log('userId-->',userId);
-    // console.log('userNick-->',userNick);
-
-   
-   
+    
         if(!existUser){
             const from = 'kakao'
             // const user = new User({ userId, userNick, from })
-            await User.create({ userId, userNick, from }); //? create가 save()랑 같나? 
+            await User.create({ userId, userNick, from }); 
         }
     
         const loginUser = await User.findOne({where: { userId: userId }});
-        // console.log("222222222",userId);
-        // console.log("33333333",loginUser.dataValues.userId);
         const token = jwt.sign({ userId : loginUser.dataValues.userId }, `${process.env.KEY}`); // 이부분 바꿨는데 userId : loginUser.userId --> ? 
-
-
-        console.log("12321321",loginUser);
-        // console.log(loginUser)
 
         res.status(200).json({
             token,

@@ -6,8 +6,8 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const winston = require("winston");
-const hpp = require("hpp");
-const helmet = require("helmet");
+// const hpp = require("hpp");
+// const helmet = require("helmet");
 // const html = "<script>location.href = 'https://gilbut.co.kr'</script>";
 const cors = require("cors");
 
@@ -25,14 +25,14 @@ const httpsPort = 4433;
 // console.log(sanitizeHtml(html));
 
 //인증서 불러오기
-const privateKey = fs.readFileSync(__dirname + "/private.key", "utf8");
-const certificate = fs.readFileSync(__dirname + "/certificate.crt", "utf8");
-const ca = fs.readFileSync(__dirname + "/ca_bundle.crt", "utf8");
-const credentials = {
-  key: privateKey,
-  cert: certificate,
-  ca: ca,
-};
+// const privateKey = fs.readFileSync(__dirname + "/private.key", "utf8");
+// const certificate = fs.readFileSync(__dirname + "/certificate.crt", "utf8");
+// const ca = fs.readFileSync(__dirname + "/ca_bundle.crt", "utf8");
+// const credentials = {
+//   key: privateKey,
+//   cert: certificate,
+//   ca: ca,
+// };
 
 //https 미들웨어 정의
 
@@ -64,50 +64,50 @@ const requestMiddleware = (req, res, next) => {
 app.use(cors());
 //https 리다이렉션
 //app_low : http 전용 미들웨어
-app_low.use((req, res, next) => {
-  if (req.secure) {
-    next();
-  } else {
-    const to = `https://${req.hostname}:${httpPort}${req.url}`;
-    console.log(to);
-    res.redirect(to);
-  }
-});
+// app_low.use((req, res, next) => {
+//   if (req.secure) {
+//     next();
+//   } else {
+//     const to = `https://${req.hostname}:${httpPort}${req.url}`;
+//     console.log(to);
+//     res.redirect(to);
+//   }
+// });
 
-const io = new Server(server, {
-  // cors: {
-  //   origin: "*",
-  //   credentials: true,
-  //   methods: ["GET", "POST"],
-  // },
-});
+// const io = new Server(server, {
+//   cors: {
+//     origin: "*",
+//     credentials: true,
+//     methods: ["GET", "POST"],
+//   },
+// });
 
-io.on("connection", (socket) => {
-  console.log(`User Connected: ${socket.id}`);
+// io.on("connection", (socket) => {
+//   console.log(`User Connected: ${socket.id}`);
 
-  socket.on("join_room", (data) => {
-    socket.join(data);
-    console.log(`User with ID: ${socket.id} joined room: ${data}`);
-  });
+//   socket.on("join_room", (data) => {
+//     socket.join(data);
+//     console.log(`User with ID: ${socket.id} joined room: ${data}`);
+//   });
 
-  socket.on("send_message", (data) => {
-    socket.to(data.room).emit("receive_message", data);
-  });
+//   socket.on("send_message", (data) => {
+//     socket.to(data.room).emit("receive_message", data);
+//   });
 
-  socket.on("disconnect", () => {
-    console.log("User Disconnected", socket.id);
-  });
+//   socket.on("disconnect", () => {
+//     console.log("User Disconnected", socket.id);
+//   });
 
-  socket.on("leave-room", (roomName, done) => {
-    socket.leave(roomName);
-    done();
-    console.log("나 나갔어");
-    // const rooms = getUserRooms();
-    // if (!rooms.includes(roomName)) {
-    io.emit("remove-room", roomName);
-    console.log("방 삭제되었음");
-  });
-});
+//   socket.on("leave-room", (roomName, done) => {
+//     socket.leave(roomName);
+//     done();
+//     console.log("나 나갔어");
+//     // const rooms = getUserRooms();
+//     // if (!rooms.includes(roomName)) {
+//     io.emit("remove-room", roomName);
+//     console.log("방 삭제되었음");
+//   });
+// });
 
 //미들웨어 사용
 app.use(session({ secret: "solider challenge project" }));
@@ -129,11 +129,11 @@ app.get("/", (req, res) => {
 });
 
 app.get(
-  "/.well-known/pki-validation/FC0E77FDDE5C9A0FE9EDFBECB61F1075.txt",
+  "/.well-known/pki-validation/479CA8BBE82722022860E04CE3AFF333.txt",
   (req, res) => {
     res.sendFile(
       __dirname +
-        "/well-known/pki-validation/FC0E77FDDE5C9A0FE9EDFBECB61F1075.txt"
+        "/well-known/pki-validation/479CA8BBE82722022860E04CE3AFF333.txt"
     );
   }
 );
@@ -156,14 +156,14 @@ app.use(function (err, req, res, next) {
   res.status(500).send("Something Broke!");
 });
 
-// app.listen(port, () => {
-//   console.log(port, "번으로 서버가 켜졌어요!");
+app.listen(httpPort, () => {
+  console.log(httpPort, "번으로 서버가 켜졌어요!");
+});
+
+// http.createServer(app_low).listen(httpPort, () => {
+//   console.log("http 서버가 켜졌어요");
 // });
 
-http.createServer(app_low).listen(httpPort, () => {
-  console.log("http 서버가 켜졌어요");
-});
-
-https.createServer(credentials, app).listen(httpsPort, () => {
-  console.log("https 서버가 켜졌어요");
-});
+// https.createServer(credentials, app).listen(httpsPort, () => {
+//   console.log("https 서버가 켜졌어요");
+// });
