@@ -40,11 +40,11 @@ sequelize
 const privateKey = fs.readFileSync(__dirname + "/soldierchallengers_com.key", "utf8");
 const certificate = fs.readFileSync(__dirname + "/soldierchallengers_com__crt.pem", "utf8");
 const ca = fs.readFileSync(__dirname + "/soldierchallengers_com__ca.pem", "utf8");
-// const credentials = {
-//   key: privateKey,
-//   cert: certificate,
-//   ca: ca,
-// };
+const credentials = {
+  key: privateKey,
+  cert: certificate,
+  ca: ca,
+};
 
 //https 미들웨어 정의
 
