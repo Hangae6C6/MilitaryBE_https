@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const winston = require("winston");
+const { sequelize } = require("./models");
 // const hpp = require("hpp");
 // const helmet = require("helmet");
 // const html = "<script>location.href = 'https://gilbut.co.kr'</script>";
