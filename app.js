@@ -7,13 +7,13 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const winston = require("winston");
 const { sequelize } = require("./models");
-// const hpp = require("hpp");
-// const helmet = require("helmet");
+const hpp = require("hpp");
+const helmet = require("helmet");
 // const html = "<script>location.href = 'https://gilbut.co.kr'</script>";
 const cors = require("cors");
 
 const app = express();
-// const app_low = express();
+const app_low = express();
 
 const { Server } = require("socket.io");
 const server = http.createServer(app);
@@ -21,8 +21,8 @@ const passport = require("passport");
 const session = require("express-session");
 const sanitizeHtml = require("sanitize-html");
 
-// const httpPort = 3000;
-// const httpsPort = 4433;
+const httpPort = 3000;
+const httpsPort = 4433;
 // console.log(sanitizeHtml(html));
 app.use(cors());
 sequelize 
@@ -37,9 +37,9 @@ sequelize
 
 
 //인증서 불러오기
-// const privateKey = fs.readFileSync(__dirname + "/private.key", "utf8");
-// const certificate = fs.readFileSync(__dirname + "/certificate.crt", "utf8");
-// const ca = fs.readFileSync(__dirname + "/ca_bundle.crt", "utf8");
+const privateKey = fs.readFileSync(__dirname + "/soldierchallengers_com.key", "utf8");
+const certificate = fs.readFileSync(__dirname + "/soldierchallengers_com__crt.pem", "utf8");
+const ca = fs.readFileSync(__dirname + "/soldierchallengers_com__ca.pem", "utf8");
 // const credentials = {
 //   key: privateKey,
 //   cert: certificate,
@@ -132,8 +132,8 @@ app.use(requestMiddleware);
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan("combined"));
-// app.use(helmet({ contentSecurityPolicy: false }));
-// app.use(hpp());
+app.use(helmet({ contentSecurityPolicy: false }));
+app.use(hpp());
 
 app.get("/", (req, res) => {
   res.send("mainPage");
@@ -167,14 +167,14 @@ app.use(function (err, req, res, next) {
   res.status(500).send("Something Broke!");
 });
 
-app.listen(3000, () => {
-  console.log(3000, "번으로 서버가 켜졌어요!");
+// app.listen(3000, () => {
+//   console.log(3000, "번으로 서버가 켜졌어요!");
+// });
+
+http.createServer(app_low).listen(httpPort, () => {
+  console.log("http 서버가 켜졌어요");
 });
 
-// http.createServer(app_low).listen(httpPort, () => {
-//   console.log("http 서버가 켜졌어요");
-// });
-
-// https.createServer(credentials, app).listen(httpsPort, () => {
-//   console.log("https 서버가 켜졌어요");
-// });
+https.createServer(credentials, app).listen(httpsPort, () => {
+  console.log("https 서버가 켜졌어요");
+});
