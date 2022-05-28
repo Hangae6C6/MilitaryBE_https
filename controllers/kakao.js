@@ -6,7 +6,7 @@ require("dotenv").config();
 
 const kakao = {
     clientid: `${process.env.CLIENTED}`, //REST API
-    redirectUri : 'https://soldierchallengers.com' 
+    redirectUri : 'https://soldierchallengers.com/api/auth/kakao/callback' 
 };
 
 // kakao login page URL --> HTML BUTTON CLICK --> ROUTER.KAKAOLOGIN
