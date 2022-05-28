@@ -23,6 +23,7 @@ const sanitizeHtml = require("sanitize-html");
 
 const httpPort = 3000;
 const httpsPort = 4433;
+
 // console.log(sanitizeHtml(html));
 app.use(cors());
 sequelize 
@@ -32,9 +33,6 @@ sequelize
   .catch((err) => {
     console.error(err); 
   });
-
-
-
 
 //인증서 불러오기
 const privateKey = fs.readFileSync(__dirname + "/pizzaboy_shop.key", "utf8");
@@ -75,15 +73,15 @@ const requestMiddleware = (req, res, next) => {
 
 //https 리다이렉션
 //app_low : http 전용 미들웨어
-// app_low.use((req, res, next) => {
-//   if (req.secure) {
-//     next();
-//   } else {
-//     const to = `https://${req.hostname}:${httpPort}${req.url}`;
-//     console.log(to);
-//     res.redirect(to);
-//   }
-// });
+app_low.use((req, res, next) => {
+  if (req.secure) {
+    next();
+  } else {
+    const to = `https://${req.hostname}:${httpPort}${req.url}`;
+    console.log(to);
+    res.redirect(to);
+  }
+});
 
 const io = new Server(server, {
   cors: {

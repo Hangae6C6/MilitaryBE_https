@@ -10,7 +10,8 @@ const kakao = {
 };
 
 // kakao login page URL --> HTML BUTTON CLICK --> ROUTER.KAKAOLOGIN
-const  kakaoLogin = async (req,res) => {
+const kakaoLogin = async (req,res) => {
+    console.log("1111111",kakaoLogin);
     const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${kakao.clientid}&redirect_uri=${kakao.redirectUri}`
     res.redirect(kakaoAuthURL);
 };
@@ -19,6 +20,7 @@ const  kakaoLogin = async (req,res) => {
 const kakaoRegister = async (req,res) => {
 
     const { code } = req.query;
+    console.log("123123123123",code);
     const options = {
         url : "https://kauth.kakao.com/oauth/token",
         method : 'POST',
@@ -35,7 +37,7 @@ const kakaoRegister = async (req,res) => {
     };
     
    const kakaotoken = await rp(options);
-
+   console.log("33333333",kakaotoken);
    const options1 = {
         url : "https://kapi.kakao.com/v2/user/me",
         method : 'GET',
@@ -46,7 +48,7 @@ const kakaoRegister = async (req,res) => {
         json: true,
     };
     const userInfo = await rp(options1);
-   
+    console.log("12334455555",userInfo);
    
     const userId = userInfo.id;
     const userNick = userInfo.kakao_account.profile.nickname;
@@ -66,6 +68,7 @@ const kakaoRegister = async (req,res) => {
             userId,
             userNick,
         });
+        console.log(token,userId,userNick);
 };
 
 module.exports = {kakaoLogin,kakaoRegister};
