@@ -1,6 +1,6 @@
 const express = require('express');
 const rp = require('request-promise');
-const {User} = require("../models");
+const {User,UserData} = require("../models");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
