@@ -59,7 +59,16 @@ const kakaoRegister = async (req,res) => {
             // const user = new User({ userId, userNick, from })
             await User.create({ userId, userNick, from }); 
         }
-    
+
+        const userData = await UserData.findOne({
+            where: { userId : userId },
+        });
+        const userDataCheck = true;
+        if(!userData){
+            userDataCheck=false;
+        }
+            
+          
         const loginUser = await User.findOne({where: { userId: userId }});
         const token = jwt.sign({ userId : loginUser.dataValues.userId }, `${process.env.KEY}`); // 이부분 바꿨는데 userId : loginUser.userId --> ? 
 
@@ -67,6 +76,7 @@ const kakaoRegister = async (req,res) => {
             token,
             userId,
             userNick,
+            userDataCheck
         });
         console.log(token,userId,userNick);
 };
