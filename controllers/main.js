@@ -136,7 +136,8 @@ const categoryClick = async (req, res) => {
 
 //챌린지개설
 const openChallenge1 = async (req, res) => {
-  const { userId } = res.locals.user;
+  // const { userId } = res.locals.user;
+  const { userId } = req.query;
 
   const {
     challengeTitle, // 최대 글자수 7개
