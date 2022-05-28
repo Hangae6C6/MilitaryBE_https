@@ -23,6 +23,7 @@ const sanitizeHtml = require("sanitize-html");
 
 const httpPort = 3000;
 const httpsPort = 4433;
+
 // console.log(sanitizeHtml(html));
 app.use(cors());
 sequelize 
@@ -33,18 +34,15 @@ sequelize
     console.error(err); 
   });
 
-
-
-
 //인증서 불러오기
-const privateKey = fs.readFileSync(__dirname + "/pizzaboy_shop.key", "utf8");
-const certificate = fs.readFileSync(__dirname + "/pizzaboy_shop__crt.pem", "utf8");
-const ca = fs.readFileSync(__dirname + "/pizzaboy_shop__ca.pem", "utf8");
-const credentials = {
-  key: privateKey,
-  cert: certificate,
-  ca: ca,
-};
+// const privateKey = fs.readFileSync(__dirname + "/pizzaboy_shop.key", "utf8");
+// const certificate = fs.readFileSync(__dirname + "/pizzaboy_shop__crt.pem", "utf8");
+// const ca = fs.readFileSync(__dirname + "/pizzaboy_shop__ca.pem", "utf8");
+// const credentials = {
+//   key: privateKey,
+//   cert: certificate,
+//   ca: ca,
+// };
 
 //https 미들웨어 정의
 
@@ -167,14 +165,14 @@ app.use(function (err, req, res, next) {
   res.status(500).send("Something Broke!");
 });
 
-// app.listen(3000, () => {
-//   console.log(3000, "번으로 서버가 켜졌어요!");
+app.listen(3001, () => {
+  console.log(3001, "번으로 서버가 켜졌어요!");
+});
+
+// http.createServer(app_low).listen(httpPort, () => {
+//   console.log("http 서버가 켜졌어요");
 // });
 
-http.createServer(app_low).listen(httpPort, () => {
-  console.log("http 서버가 켜졌어요");
-});
-
-https.createServer(credentials, app).listen(httpsPort, () => {
-  console.log("https 서버가 켜졌어요");
-});
+// https.createServer(credentials, app).listen(httpsPort, () => {
+//   console.log("https 서버가 켜졌어요");
+// });
