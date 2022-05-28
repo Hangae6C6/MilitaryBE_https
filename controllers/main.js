@@ -76,7 +76,6 @@ const preTest = async (req, res) => {
 //테스트 
 const preTest1 = async (req,res) => {
   const { userId } = res.locals.user;
-
   const userData = await UserData.findOne({
     where: { userId : userId },
   });
