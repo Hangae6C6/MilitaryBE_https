@@ -58,15 +58,15 @@ const kakaoRegister = async (req,res) => {
             const from = 'kakao'
             // const user = new User({ userId, userNick, from })
             await User.create({ userId, userNick, from }); 
-        }
+        };
 
-        const userData = await UserData.findOne({
+        let userData = await UserData.findOne({
             where: { userId : userId },
         });
-        const userDataCheck = true;
+        let userDataCheck = true;
         if(!userData){
             userDataCheck=false;
-        }
+        };
             
           
         const loginUser = await User.findOne({where: { userId: userId }});
