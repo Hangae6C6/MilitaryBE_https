@@ -6,7 +6,7 @@ require("dotenv").config();
 
 const kakao = {
     clientid: `${process.env.CLIENTED}`, //REST API
-    redirectUri : 'https://soldierchallengers.com/api/auth/kakao/callback' 
+    redirectUri : 'https://soldierchallengers.com' 
 };
 
 // kakao login page URL --> HTML BUTTON CLICK --> ROUTER.KAKAOLOGIN
@@ -68,7 +68,6 @@ const kakaoRegister = async (req,res) => {
             userDataCheck=false;
         };
             
-          
         const loginUser = await User.findOne({where: { userId: userId }});
         const token = jwt.sign({ userId : loginUser.dataValues.userId }, `${process.env.KEY}`); // 이부분 바꿨는데 userId : loginUser.userId --> ? 
 
