@@ -72,6 +72,23 @@ const preTest = async (req, res) => {
   res.status(201).send({});
 };
 
+
+//테스트 
+const preTest1 = async (req,res) => {
+  const { userId } = res.locals.user;
+
+  const userData = await UserData.findOne({
+    where: { userId : userId },
+  });
+  const ck = true;
+  if(!userData){
+    ck=false;
+  }
+  res.status(200).json({
+    result:ck
+  });
+};
+
 //검색기능 라우터
 const search = async (req, res) => {
   let { keyword } = req.query;
@@ -462,5 +479,6 @@ module.exports = {
   testCount,
   testCountRead,
   iconClick,
-  iconClick2
+  iconClick2,
+  preTest1
 };
