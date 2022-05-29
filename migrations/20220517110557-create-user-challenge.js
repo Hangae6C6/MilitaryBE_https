@@ -4,13 +4,12 @@ module.exports = {
     await queryInterface.createTable('UserChallenges', {
       userId: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
         type: Sequelize.STRING
       },
       challenegNum: {
-        type: Sequelize.STRING,
-        autoIncrement: true
+        type: Sequelize.INTEGER,
+        // autoIncrement: true
       },
       challengeEndDate: {
         type: Sequelize.STRING
