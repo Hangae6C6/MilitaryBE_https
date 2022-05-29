@@ -34,6 +34,16 @@ sequelize
     console.error(err); 
   });
 
+ // db연결
+  sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log("데이터베이스 연결 성공");
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+
 //인증서 불러오기
 const privateKey = fs.readFileSync(__dirname + "/pizzaboy_shop.key", "utf8");
 const certificate = fs.readFileSync(__dirname + "/pizzaboy_shop__crt.pem", "utf8");
