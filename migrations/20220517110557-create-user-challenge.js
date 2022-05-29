@@ -9,7 +9,7 @@ module.exports = {
       },
       challenegNum: {
         type: Sequelize.INTEGER,
-        // autoIncrement: true
+        autoIncrement: true
       },
       challengeEndDate: {
         type: Sequelize.STRING
