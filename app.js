@@ -16,7 +16,7 @@ const app = express();
 const app_low = express();
 
 const { Server } = require("socket.io");
-const server = http.createServer(app);
+const server = https.createServer(app);
 const passport = require("passport");
 const session = require("express-session");
 const sanitizeHtml = require("sanitize-html");
