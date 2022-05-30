@@ -35,37 +35,18 @@ sequelize
     console.error(err);
   });
 
-sequelize
-  .sync({ force: false })
-  .then(() => {
-    console.log("데이터베이스 연결 성공");
-  })
-  .catch((err) => {
-    console.error(err);
-  });
-
-// db연결
-sequelize
-  .sync({ force: false })
-  .then(() => {
-    console.log("데이터베이스 연결 성공");
-  })
-  .catch((err) => {
-    console.error(err);
-  });
-
 //인증서 불러오기
-// const privateKey = fs.readFileSync(__dirname + "/pizzaboy_shop.key", "utf8");
-// const certificate = fs.readFileSync(
-//   __dirname + "/pizzaboy_shop__crt.pem",
-//   "utf8"
-// );
-// const ca = fs.readFileSync(__dirname + "/pizzaboy_shop__ca.pem", "utf8");
-// const credentials = {
-//   key: privateKey,
-//   cert: certificate,
-//   ca: ca,
-// };
+const privateKey = fs.readFileSync(__dirname + "/pizzaboy_shop.key", "utf8");
+const certificate = fs.readFileSync(
+  __dirname + "/pizzaboy_shop__crt.pem",
+  "utf8"
+);
+const ca = fs.readFileSync(__dirname + "/pizzaboy_shop__ca.pem", "utf8");
+const credentials = {
+  key: privateKey,
+  cert: certificate,
+  ca: ca,
+};
 
 //https 미들웨어 정의
 
@@ -96,15 +77,15 @@ const requestMiddleware = (req, res, next) => {
 
 //https 리다이렉션
 //app_low : http 전용 미들웨어
-// app_low.use((req, res, next) => {
-//   if (req.secure) {
-//     next();
-//   } else {
-//     const to = `https://${req.hostname}:${httpPort}${req.url}`;
-//     console.log(to);
-//     res.redirect(to);
-//   }
-// });
+app_low.use((req, res, next) => {
+  if (req.secure) {
+    next();
+  } else {
+    const to = `https://${req.hostname}:${httpPort}${req.url}`;
+    console.log(to);
+    res.redirect(to);
+  }
+});
 
 const io = new Server(server, {
   cors: {
@@ -188,14 +169,14 @@ app.use(function (err, req, res, next) {
   res.status(500).send("Something Broke!");
 });
 
-app.listen(3000, () => {
-  console.log(3000, "번으로 서버가 켜졌어요!");
+// app.listen(3000, () => {
+//   console.log(3000, "번으로 서버가 켜졌어요!");
+// });
+
+http.createServer(app_low).listen(httpPort, () => {
+  console.log("http 서버가 켜졌어요");
 });
 
-// http.createServer(app_low).listen(httpPort, () => {
-//   console.log("http 서버가 켜졌어요");
-// });
-
-// https.createServer(credentials, app).listen(httpsPort, () => {
-//   console.log("https 서버가 켜졌어요");
-// });
+https.createServer(credentials, app).listen(httpsPort, () => {
+  console.log("https 서버가 켜졌어요");
+});
