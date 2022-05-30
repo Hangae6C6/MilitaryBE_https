@@ -413,7 +413,5 @@ module.exports = {
   openChallenge1,
   testCount,
   testCountRead,
-  iconClick,
-  iconClick2,
   preTest1
 };
