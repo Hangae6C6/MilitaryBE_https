@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('ChallengeJoin', {
+    await queryInterface.createTable('ChallengeJoins', {
       userId: {
         type: Sequelize.STRING
       },
@@ -33,6 +33,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('ChallengeJoin');
+    await queryInterface.dropTable('ChallengeJoins');
   }
 };

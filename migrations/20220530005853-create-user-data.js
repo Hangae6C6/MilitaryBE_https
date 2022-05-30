@@ -14,9 +14,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   UserChallenge.init({
-    email: DataTypes.STRING,
-    nickname: DataTypes.STRING,
-    password: DataTypes.STRING
+    userId: {
+      type:DataTypes.STRING,
+      primaryKey:true,
+    },
+    userchallenegNum:DataTypes.INTEGER,
+    challenegNum:DataTypes.STRING,
+    challengeEndDate: DataTypes.STRING,
+    challengeProgress: DataTypes.STRING,
+    challengeTitle: DataTypes.STRING,
+    challengeType: DataTypes.STRING,
+    steps: DataTypes.JSON,
+
   }, {
     sequelize,
     modelName: 'UserChallenge',
