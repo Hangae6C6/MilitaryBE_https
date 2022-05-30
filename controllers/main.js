@@ -149,89 +149,89 @@ const openChallenge1 = async (req, res) => {
   } = req.body.challenges;
 
   //벨리데이션체크
-  const checTitledLen = /^.{2,7}$/;
-  const checkStepLen = /^.{2,10}$/;
-  const dateExp = /^(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])-(19|20)\d{2}$/;
+  // const checTitledLen = /^.{2,10}$/;
+  // const checkStepLen = /^.{2,10}$/;
+  // const dateExp = /^(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])-(19|20)\d{2}$/;
 
-  if (
-    challengeTitle === "" ||
-    challengeTitle === undefined ||
-    challengeTitle === null
-  ) {
-    res.status(400).json({
-      msg: "챌린지타이틀을 입력하세요",
-    });
-    return;
-  } else if (!checTitledLen.test(challengeTitle)) {
-    res.status(401).json({
-      msg: "챌린지타이틀은 2~7자 입니다.",
-    });
-    return;
-  } else if (
-    challengeType === "" ||
-    challengeType === undefined ||
-    challengeType === null
-  ) {
-    res.status(400).json({
-      msg: "챌린지타입을 선택해주세요",
-    });
-    return;
-  } else if (
-    challengeStartDate === "" ||
-    challengeStartDate === undefined ||
-    challengeStartDate === null
-  ) {
-    res.status(400).json({
-      msg: "시작일을 입력하세요.",
-    });
-    return;
-  } else if (!dateExp.test(challengeStartDate)) {
-    res.status(400).json({
-      msg: "시작일의형태를 맞춰주세요(MM-DD-YYYY)",
-    });
-    return;
-  } else if (
-    challengeEndDate === "" ||
-    challengeEndDate === undefined ||
-    challengeEndDate === null
-  ) {
-    res.status(400).json({
-      msg: "종료일을 입력하세요.",
-    });
-    return;
-  } else if (!dateExp.test(challengeEndDate)) {
-    res.status(400).json({
-      msg: "종료일의형태를 맞춰주세요(MM-DD-YYYY)",
-    });
-    return;
-  } else if (challengeLimitNum <= 2) {
-    res.status(400).json({
-      msg: "최소인원수는 2명이상입니다.",
-    });
-    return;
-  }
+  // if (
+  //   challengeTitle === "" ||
+  //   challengeTitle === undefined ||
+  //   challengeTitle === null
+  // ) {
+  //   res.status(400).json({
+  //     msg: "챌린지타이틀을 입력하세요",
+  //   });
+  //   return;
+  // } else if (!checTitledLen.test(challengeTitle)) {
+  //   res.status(401).json({
+  //     msg: "챌린지타이틀은 2~10자 입니다.",
+  //   });
+  //   return;
+  // } else if (
+  //   challengeType === "" ||
+  //   challengeType === undefined ||
+  //   challengeType === null
+  // ) {
+  //   res.status(400).json({
+  //     msg: "챌린지타입을 선택해주세요",
+  //   });
+  //   return;
+  // } else if (
+  //   challengeStartDate === "" ||
+  //   challengeStartDate === undefined ||
+  //   challengeStartDate === null
+  // ) {
+  //   res.status(400).json({
+  //     msg: "시작일을 입력하세요.",
+  //   });
+  //   return;
+  // } else if (!dateExp.test(challengeStartDate)) {
+  //   res.status(400).json({
+  //     msg: "시작일의형태를 맞춰주세요(MM-DD-YYYY)",
+  //   });
+  //   return;
+  // } else if (
+  //   challengeEndDate === "" ||
+  //   challengeEndDate === undefined ||
+  //   challengeEndDate === null
+  // ) {
+  //   res.status(400).json({
+  //     msg: "종료일을 입력하세요.",
+  //   });
+  //   return;
+  // } else if (!dateExp.test(challengeEndDate)) {
+  //   res.status(400).json({
+  //     msg: "종료일의형태를 맞춰주세요(MM-DD-YYYY)",
+  //   });
+  //   return;
+  // } else if (challengeLimitNum <= 2) {
+  //   res.status(400).json({
+  //     msg: "최소인원수는 2명이상입니다.",
+  //   });
+  //   return;
+  // }
 
-  if (steps.length == 0) {
-    res.status(400).json({
-      msg: "스텝을 최소 1개 이상 입력해주세요",
-    });
-    return;
-  } else {
-    for (var i = 1; i < steps.length; i++) {
-      var content = steps[i].stepContent;
-      if (content == "" || content == null || content == undefined) {
-        res.status(400).json({
-          msg: i + 1 + "번째 스텝의 컨텐츠를 입력해주세요",
-        });
-        return;
-      } else if (!checkStepLen.test(content)) {
-        res.status(400).json({
-          msg: "챌린지스탭컨텐츠는 2~10자 입니다.",
-        });
-        return;
-      }
-    }
-  }
+  // if (steps.length == 0) {
+  //   res.status(400).json({
+  //     msg: "스텝을 최소 1개 이상 입력해주세요",
+  //   });
+  //   return;
+  // } else {
+  //   for (var i = 1; i < steps.length; i++) {
+  //     var content = steps[i].stepContent;
+  //     if (content == "" || content == null || content == undefined) {
+  //       res.status(400).json({
+  //         msg: i + 1 + "번째 스텝의 컨텐츠를 입력해주세요",
+  //       });
+  //       return;
+  //     } else if (!checkStepLen.test(content)) {
+  //       res.status(400).json({
+  //         msg: "챌린지스탭컨텐츠는 2~10자 입니다.",
+  //       });
+  //       return;
+  //     }
+  //   }
+  // }
 
   // challengeNum은 자동생성,
 
