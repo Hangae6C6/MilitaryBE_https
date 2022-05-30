@@ -82,7 +82,6 @@ const login = async (req, res) => {
 
   // body passowrd = unHashPassword -->true
   const unHashPw = bcrypt.compareSync(userPw, user.userPw);
-  console.log(user.userId, userId, userPw, user.userPw, unHashPw);
 
   if (user.userId !== userId || unHashPw === false) {
     res.status(401).json({
@@ -106,7 +105,7 @@ const login = async (req, res) => {
 // 로그인체크
 // 체크
 const loginCheck = async (req, res) => {
-  const { user } = res.locals;
+  const { user } = res.locals.user;
   res.status(200).json({
     user,
   });
