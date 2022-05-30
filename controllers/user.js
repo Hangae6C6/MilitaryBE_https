@@ -78,7 +78,7 @@ const login = async (req, res) => {
   const user = await User.findOne({ where: { userId: userId } });
   console.log(userId);
 
-  const tokenOptions = { expiresIn: "60000", issuer: "soldierChallengers" };
+  const tokenOptions = { expiresIn: "1d", issuer: "soldierChallengers" };
 
   // body passowrd = unHashPassword -->true
   const unHashPw = bcrypt.compareSync(userPw, user.userPw);
