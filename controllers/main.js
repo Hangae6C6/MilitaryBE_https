@@ -21,6 +21,8 @@ const { or, and, like, eq } = sequelize.Op;
 //   return result;
 // }
 
+//test주석
+
 //메인페이지 챌린지 보여주기 라우터 (회원, 비회원 구분X)
 const mainPage = async (req, res) => {
   console.log("-------->msg")
