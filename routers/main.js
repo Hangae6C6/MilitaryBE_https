@@ -9,7 +9,6 @@ const {
   openChallenge1,
   testCount,
   testCountRead,
-  preTest1
 } = require("../controllers/main");
 const authMiddleware = require("../middleware/authMiddleWare");
 
@@ -24,7 +23,7 @@ router.post("/main/preTest", authMiddleware, preTest); // 회원만 가능
 
 router.post("/main/preTest", preTest); // 비회원도 가능
 
-router.post("/main/preTest1", preTest1);
+// router.post("/main/preTest1", preTest1);
 
 //검색
 router.get("/search", search);

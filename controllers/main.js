@@ -413,5 +413,4 @@ module.exports = {
   openChallenge1,
   testCount,
   testCountRead,
-  preTest1
 };
