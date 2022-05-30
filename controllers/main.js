@@ -272,72 +272,7 @@ const openChallenge1 = async (req, res) => {
   });
 };
 
-// // 챌린지 조건설정 1-2 참여인원(challengeCnt) , 시작일(challengeStartDt), 종료일(challengeEndDt)
-// const openChallenge2 = async (req,res) => {
-//   const {challengeNum} = req.query
-//   const { challengeCnt,challengeStartDt,challengeEndDt} = req.body;
-//   // console.log( req.body);
 
-//   await Challenge.update(
-//     {
-//     challengeCnt:challengeCnt,
-//     challengeStartDt:challengeStartDt,
-//     challengeEndDt:challengeEndDt,
-//     lastSavePage:2
-//   },
-
-//   {where: {challengeNum:challengeNum}}
-//   );
-
-//   res.status(201).json({
-//       result:true,
-//       challengeNum,
-//       msg : "인원,시작,종료일단넘어가면성공"
-//   });
-// };
-
-//챌린지 조건설정 1-3 주제(type)
-// const openChallenge3 = async (req,res) => {
-//   const {challengeNum} = req.query
-//   const {challengeType} = req.body;
-
-//   await Challenge.update(
-//     {
-//     challengeType:challengeType,
-//     lastSavePage:3
-//   },
-//   {where: {challengeNum:challengeNum}}
-//   );
-//   res.status(201).json({
-//     result:true,
-//     challengeNum,
-//     msg : "타입일단넘어가면성공"
-// });
-// };
-
-// //챌린지 조건설정 1-4(step)
-// const openChallenge4 = async (req,res) => {
-//     const {challengeNum,challengeStep} = req.body;
-//     console.log("test110",challengeStep);
-//     await Challenge.update(
-//       {
-//       challengeStep:challengeStep, // 배열로 challengeStep:[{step1,text},{step2,text}......] --> challengeStep[0].
-//       lastSavePage:4
-//     },
-//     {where: {challengeNum:challengeNum}}
-//     );
-
-//     const openChallengeArray = [];
-//     openChallengeArray.push(challengeStep)
-//     console.log("tetetet",openChallengeArray);
-
-//    // 내일 저녁..친구도움()
-//     res.status(201).json({
-//       result:true,
-//       challengeNum,
-//       msg : "스탭일단넘어가면성공"
-//   });
-// };
 
 //챌린지 참여하기 기능(미들웨어 거쳐야함))
 const joinChallenge = async (req, res) => {
@@ -413,58 +348,58 @@ const testCountRead = async (req, res) => {
   }
 };
 
-//메인페이지 클릭시 불들어오게하기 POST
-const iconClick = async (req, res) => {
-  const { btnNum } = req.query;
-  // console.log("--------->", req.query);
-  try {
-    // console.log(btnNum);
-    const btnResult = await MainNav.findOne({ where: { id: 1 } });
-    // console.log(
-    //   btnResult.dataValues.home,
-    //   btnResult.dataValues.search,
-    //   btnResult.dataValues.mypage
-    // );
+// //메인페이지 클릭시 불들어오게하기 POST
+// const iconClick = async (req, res) => {
+//   const { btnNum } = req.query;
+//   // console.log("--------->", req.query);
+//   try {
+//     // console.log(btnNum);
+//     const btnResult = await MainNav.findOne({ where: { id: 1 } });
+//     // console.log(
+//     //   btnResult.dataValues.home,
+//     //   btnResult.dataValues.search,
+//     //   btnResult.dataValues.mypage
+//     // );
 
-    if (btnNum == 1) {
-      console.log("11111111111");
-      await MainNav.update(
-        { home: 1, search: 0, mypage: 0 },
-        { where: { id: 1 } }
-      );
-    } else if (btnNum == 2) {
-      console.log("22222222222");
-      await MainNav.update(
-        { home: 0, search: 1, mypage: 0 },
-        { where: { id: 1 } }
-      );
-    } else if (btnNum == 3) {
-      console.log("33333333333");
-      await MainNav.update(
-        { home: 0, search: 0, mypage: 1 },
-        { where: { id: 1 } }
-      );
-    }
-    const clickedResult = await MainNav.findOne({ where: { id: 1 } });
+//     if (btnNum == 1) {
+//       console.log("11111111111");
+//       await MainNav.update(
+//         { home: 1, search: 0, mypage: 0 },
+//         { where: { id: 1 } }
+//       );
+//     } else if (btnNum == 2) {
+//       console.log("22222222222");
+//       await MainNav.update(
+//         { home: 0, search: 1, mypage: 0 },
+//         { where: { id: 1 } }
+//       );
+//     } else if (btnNum == 3) {
+//       console.log("33333333333");
+//       await MainNav.update(
+//         { home: 0, search: 0, mypage: 1 },
+//         { where: { id: 1 } }
+//       );
+//     }
+//     const clickedResult = await MainNav.findOne({ where: { id: 1 } });
 
-    res.status(201).json({ result: true, msg: "clicked Btn", clickedResult });
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ result: false, msg: "fail to click" });
-  }
-};
+//     res.status(201).json({ result: true, msg: "clicked Btn", clickedResult });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(400).json({ result: false, msg: "fail to click" });
+//   }
+// };
 
-const iconClick2 = async (req, res) => {
-  try {
-    const [iconRead] = await MainNav.findAll();
-    res
-      .status(200)
-      .json({ result: true, msg: "Nav바 가져오기 성공", iconRead });
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ result: false, msg: "Nav바 가져오기 실패" });
-  }
-};
+// const iconClick2 = async (req, res) => {
+//   try {
+//     const [iconRead] = await MainNav.findAll();
+//     res
+//       .status(200)
+//       .json({ result: true, msg: "Nav바 가져오기 성공", iconRead });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(400).json({ result: false, msg: "Nav바 가져오기 실패" });
+//   }
+// };
 
 
 
