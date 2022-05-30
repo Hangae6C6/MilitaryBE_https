@@ -19,7 +19,7 @@ module.exports = (req, res, next) => {
     });
     
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(401).json({ result: "토큰이 유효하지 않습니다." });
     return;
   }
