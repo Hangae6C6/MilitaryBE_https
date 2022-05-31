@@ -169,9 +169,9 @@ app.use(function (err, req, res, next) {
   res.status(500).send("Something Broke!");
 });
 
-// app.listen(3000, () => {
-//   console.log(3000, "번으로 서버가 켜졌어요!");
-// });
+server.listen(3000, () => {
+  console.log(3000, "번으로 서버가 켜졌어요!");
+});
 
 http.createServer(app_low).listen(httpPort, () => {
   console.log("http 서버가 켜졌어요");
