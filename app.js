@@ -11,12 +11,11 @@ const hpp = require("hpp");
 const helmet = require("helmet");
 // const html = "<script>location.href = 'https://gilbut.co.kr'</script>";
 const cors = require("cors");
-
+const SocketIO = require("socket.io");
 const app = express();
 const app_low = express();
 
 const { Server } = require("socket.io");
-const server = https.createServer(app);
 const passport = require("passport");
 const session = require("express-session");
 const sanitizeHtml = require("sanitize-html");
@@ -87,40 +86,7 @@ app_low.use((req, res, next) => {
   }
 });
 
-const io = new Server(server, {
-  cors: {
-    origin: "*",
-    credentials: true,
-    methods: ["GET", "POST"],
-  },
-});
 
-io.on("connection", (socket) => {
-  console.log(`User Connected: ${socket.id}`);
-
-  socket.on("join_room", (data) => {
-    socket.join(data);
-    console.log(`User with ID: ${socket.id} joined room: ${data}`);
-  });
-
-  socket.on("send_message", (data) => {
-    socket.to(data.room).emit("receive_message", data);
-  });
-
-  socket.on("disconnect", () => {
-    console.log("User Disconnected", socket.id);
-  });
-
-  socket.on("leave-room", (roomName, done) => {
-    socket.leave(roomName);
-    done();
-    console.log("나 나갔어");
-    // const rooms = getUserRooms();
-    // if (!rooms.includes(roomName)) {
-    io.emit("remove-room", roomName);
-    console.log("방 삭제되었음");
-  });
-});
 
 //미들웨어 사용
 app.use(session({ secret: "solider challenge project" }));
@@ -169,14 +135,54 @@ app.use(function (err, req, res, next) {
   res.status(500).send("Something Broke!");
 });
 
-server.listen(3001, () => {
-  console.log(3001, "번으로 서버가 켜졌어요!");
+
+const server = http.createServer(app_low);
+const server1 = https.createServer(credentials,app);
+// server.listen(3001, () => {
+//   console.log(3001, "번으로 서버가 켜졌어요!");
+// });
+
+const io = SocketIO(server1, { cors: { origin: "*" } });
+
+// const io = new Server(server, {
+//   cors: {
+//     origin: "*",
+//     credentials: true,
+//     methods: ["GET", "POST"],
+//   },
+// });
+
+io.on("connection", (socket) => {
+  console.log(`User Connected: ${socket.id}`);
+
+  socket.on("join_room", (data) => {
+    socket.join(data);
+    console.log(`User with ID: ${socket.id} joined room: ${data}`);
+  });
+
+  socket.on("send_message", (data) => {
+    socket.to(data.room).emit("receive_message", data);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("User Disconnected", socket.id);
+  });
+
+  socket.on("leave-room", (roomName, done) => {
+    socket.leave(roomName);
+    done();
+    console.log("나 나갔어");
+    // const rooms = getUserRooms();
+    // if (!rooms.includes(roomName)) {
+    io.emit("remove-room", roomName);
+    console.log("방 삭제되었음");
+  });
 });
 
-http.createServer(app_low).listen(httpPort, () => {
+server.listen(httpPort, () => {
   console.log("http 서버가 켜졌어요");
 });
 
-https.createServer(credentials, app).listen(httpsPort, () => {
+server1.listen(httpsPort, () => {
   console.log("https 서버가 켜졌어요");
 });
