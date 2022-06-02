@@ -117,6 +117,8 @@ app.get("/", (req, res) => {
 //   }
 // );
 
+app.get("/abc", (req, res) => { res.status(200).json({ msg: "good" }); });
+
 //라우터 연결
 app.use("/api", [
   userRouter,
