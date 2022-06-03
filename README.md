@@ -32,6 +32,7 @@ https://youtu.be/dPsc1Vvg5Mk
  
    ## 🐶🍯 사이트 주소
 https://soldierchallengers.com/
+ ![image](https://user-images.githubusercontent.com/101077035/171866031-f88b8826-3ad7-497d-867d-cafacdcd4a7c.png)
 <br/>
 <br/>
 
@@ -41,7 +42,7 @@ https://soldierchallengers.com/
 <br/>
 
 ## 👨‍💻 프로젝트 기간
-
+2022-04-22 ~ 2022-06-03
 
 
 <br/>
