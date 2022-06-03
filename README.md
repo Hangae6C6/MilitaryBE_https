@@ -20,9 +20,12 @@
 <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black">
 <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=Figma&logoColor=white">
 <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=green">
+ 
+  ## 🖼 ERD
+  ![image](https://user-images.githubusercontent.com/101077035/171865869-f0a15105-4b9d-4fa9-aa7f-13c3b8b18e92.png)
   
   ## 🎬 시연영상
-
+https://youtu.be/dPsc1Vvg5Mk
 
 <br/>
 <br/>
