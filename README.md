@@ -86,8 +86,7 @@ https://soldierchallengers.com/
 <br/>
 <br/>
 
-## 💣 프로젝트 중 힘들었던 점이 있다면?
+## 💣 프로젝트 진행하면서 느낀점
 
--   
--   
--
+ ![image](https://user-images.githubusercontent.com/101077035/171872702-58ea7214-88fe-47b4-ad6c-4799d4d9f93e.png)
+
