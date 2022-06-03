@@ -81,7 +81,7 @@ https://soldierchallengers.com/
 
 ## 👨🏻‍🤝‍👨🏻팀원
 
-![image](https://user-images.githubusercontent.com/101077035/171867778-86b0c7fb-b4cc-4983-8423-59b3e19e7465.png)
+![image](https://user-images.githubusercontent.com/101077035/171872094-3c5e20f9-02bc-472f-a6cf-20faea9164eb.png)
 
 
 <br/>
