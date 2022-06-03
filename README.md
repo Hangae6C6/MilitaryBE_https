@@ -53,12 +53,10 @@ https://soldierchallengers.com/
 <br/>
 
 ## 🔨 개발툴
+![image](https://user-images.githubusercontent.com/101077035/171867042-b3eff7c1-9e07-4a83-9b62-d696435748ca.png)
 
--   Server: AWS EC2 (Ubuntu 18.04 LTS)
--   Framework: Flask (Python)
--   Database: MongoDB
--   View : HTML, CSS, Javascript
--   Tool : Git, Notion
+## ⚽ 라이브러리
+ ![image](https://user-images.githubusercontent.com/101077035/171867188-26b9e027-ea07-46db-8305-8356d6488d0e.png)
 
 <br/>
 <br/>
@@ -67,8 +65,15 @@ https://soldierchallengers.com/
   - 로그인 페이지
   - 회원가입 페이지
   - 메인 페이지
+  - 메인 페이지
+  - 메인 페이지
   - 카테고리별 페이지
   - 제품 상세 페이지
+
+  ## 🔧 트러블슈팅
+ ![image](https://user-images.githubusercontent.com/101077035/171867420-512a6f6e-ae28-49d8-96c8-8bdafa27bfc1.png)
+ ![image](https://user-images.githubusercontent.com/101077035/171867435-d97ab39c-29b2-4d31-bde7-0990314e3419.png)
+ ![image](https://user-images.githubusercontent.com/101077035/171867468-4c78aa16-6481-49fb-ad98-103afd157fc4.png)
 
 
 <br/>
@@ -76,6 +81,7 @@ https://soldierchallengers.com/
 
 ## 👨🏻‍🤝‍👨🏻팀원
 
+![image](https://user-images.githubusercontent.com/101077035/171867778-86b0c7fb-b4cc-4983-8423-59b3e19e7465.png)
 
 
 <br/>
