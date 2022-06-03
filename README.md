@@ -23,7 +23,11 @@
  
   ## 🖼 ERD
   ![image](https://user-images.githubusercontent.com/101077035/171865869-f0a15105-4b9d-4fa9-aa7f-13c3b8b18e92.png)
-  
+
+ ## 💎 **아키텍쳐 소개**
+ ![image](https://user-images.githubusercontent.com/101077035/171866509-07a1783e-2342-4d18-9b41-8e97fd33000f.png)
+ 
+ 
   ## 🎬 시연영상
 https://youtu.be/dPsc1Vvg5Mk
 
