@@ -37,10 +37,6 @@ https://youtu.be/dPsc1Vvg5Mk
    ## 🐶🍯 사이트 주소
 https://soldierchallengers.com/
  ![image](https://user-images.githubusercontent.com/101077035/171866031-f88b8826-3ad7-497d-867d-cafacdcd4a7c.png)
-<br/>
-<br/>
-
-## 🎨 프로젝트 초안(와이어 프레임)
 
 <br/>
 <br/>
