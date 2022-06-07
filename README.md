@@ -76,7 +76,7 @@ https://soldierchallengers.com/
 <br/>
 
 ## 👨🏻‍🤝‍👨🏻팀원
-
+![image](https://user-images.githubusercontent.com/101077035/172427808-e76e1caa-1a83-42b1-85f5-efd9406707d2.png)
 
 <br/>
 <br/>
